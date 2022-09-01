@@ -3,6 +3,7 @@ import { Store } from '@ngrx/store';
 import { Product } from '../product';
 import {
   getCurrentProduct,
+  getError,
   getProducts,
   getShowProductCode,
   State,
@@ -17,7 +18,7 @@ import { Observable } from 'rxjs';
 })
 export class ProductListComponent implements OnInit {
   pageTitle = 'Products';
-  errorMessage: string;
+  errorMessage$: Observable<string>;
   products$: Observable<Product[]>;
   selectedProduct$: Observable<Product>;
   displayCode$: Observable<boolean>;
@@ -29,6 +30,7 @@ export class ProductListComponent implements OnInit {
     this.store.dispatch(ProductActions.loadProducts());
     this.selectedProduct$ = this.store.select(getCurrentProduct);
     this.displayCode$ = this.store.select(getShowProductCode);
+    this.errorMessage$ = this.store.select(getError);
   }
 
   checkChanged(): void {
